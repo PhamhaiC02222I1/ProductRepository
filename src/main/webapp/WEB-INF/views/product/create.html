@@ -18,20 +18,24 @@
         <tr>
             <td> Name:</td>
             <td><input type="text" th:field="*{name}"/></td>
-        </tr>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
         <tr>
             <td> Price:</td>
             <td><input type="text" th:field="*{price}"/></td>
+        <td th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Name Error</td>
         </tr>      <tr>
-            <td> Price:</td>
+            <td> quantity:</td>
             <td><input type="text" th:field="*{quantity}"/></td>
+        <td th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Name Error</td>
         </tr>      <tr>
-            <td> Price:</td>
+            <td> description:</td>
             <td><input type="text" th:field="*{description}"/></td>
+        <td th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Name Error</td>
         </tr>
         <tr>
             <td> Image:</td>
             <td><input type="file" th:field="*{image}"/></td>
+            <td th:if="${#fields.hasErrors('image')}" th:errors="*{image}">Name Error</td>
         </tr>
         <tr>
             <td>Category:</td>

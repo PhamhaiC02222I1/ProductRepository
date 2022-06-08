@@ -14,10 +14,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -59,7 +62,10 @@ public class ProductController {
     }
 
     @PostMapping("/create-product")
-    public ModelAndView saveProduct(@ModelAttribute ProductForm productForm) {
+    public ModelAndView saveProduct(@ModelAttribute(name = "product") ProductForm productForm, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("/product/create");
+//        modelAndView.addObject("productForm", productForm);
+
         MultipartFile multipartFile = productForm.getImage();
         String fileName = multipartFile.getOriginalFilename();
         try {
@@ -67,12 +73,23 @@ public class ProductController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), fileName, productForm.getCategory());
-        productService.save(product);
-        ModelAndView modelAndView = new ModelAndView("/product/create");
-        modelAndView.addObject("productForm", productForm);
-        modelAndView.addObject("message", "Created new product successfully !");
-        return modelAndView;
+        Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), fileName,
+                productForm.getCategory());
+
+        new Product().validate(product, bindingResult);
+        if (bindingResult.hasFieldErrors()) {
+//                modelAndView.addObject("message", "Created new product failed !");
+
+            return modelAndView;
+        } else {
+            productService.save(product);
+            modelAndView.addObject("message", "Created new product successfully !");
+            return modelAndView;
+        }
+
+
+//            modelAndView.addObject("message", "Created new product successfully !");
+
     }
 
     @GetMapping("/edit-product/{id}")
@@ -133,6 +150,7 @@ public class ProductController {
         productService.remove(product.getId());
         return "redirect:/product";
     }
+
     @GetMapping("/sortByPrice")
     public ModelAndView sortByPrice(Pageable pageable) {
         Page<Product> products = productService.findAllByOrderByPrice(pageable);
@@ -140,10 +158,11 @@ public class ProductController {
         modelAndView.addObject("product", products);
         return modelAndView;
     }
+
     @GetMapping("/view/{id}")
     public String view(@PathVariable Long id, Model model) {
         Optional<Product> product = productService.findById(id);
-        model.addAttribute("product",product.get()) ;
+        model.addAttribute("product", product.get());
         return "/product/view";
     }
 

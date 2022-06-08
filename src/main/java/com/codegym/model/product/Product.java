@@ -1,15 +1,20 @@
 package com.codegym.model.product;
 
 import com.codegym.model.category.Category;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.Validator;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
-public class Product {
+@Component
+public class Product implements Validator {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private double price;
@@ -18,6 +23,7 @@ public class Product {
     private String image;
     @ManyToOne
     private Category category;
+
     public Product() {
     }
 
@@ -85,5 +91,41 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return Product.class.isAssignableFrom(clazz);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        Product product = (Product) target;
+        String name = product.getName();
+
+        ValidationUtils.rejectIfEmpty(errors, "name", "name.empty");
+        if (name.length() >= 100) {
+            errors.reject("name", "name.length");
+        }
+        if (name.contains("@") || name.contains(";") || name.contains(",") || name.contains(".")
+                || name.contains("=") || name.contains("+") ||
+                name.contains("-")) {
+            errors.reject("name", "name.contain");
+        }
+
+        Double price = product.getPrice();
+        ValidationUtils.rejectIfEmpty(errors, "price", "price.empty");
+
+        Float quantity = product.getQuantity();
+        ValidationUtils.rejectIfEmpty(errors, "quantity", "quantity.empty");
+        String description = product.getDescription();
+        ValidationUtils.rejectIfEmpty(errors, "description", "description.empty");
+        if (description.length() >= 800) {
+            errors.reject("description", "description.length");
+        }
+
+        String image = product.getImage();
+        ValidationUtils.rejectIfEmpty(errors, "image", "image.empty");
+
     }
 }
