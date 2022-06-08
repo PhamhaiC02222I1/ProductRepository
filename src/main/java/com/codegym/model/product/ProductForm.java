@@ -6,15 +6,25 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class ProductForm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
+    @NotEmpty(message = "Please enter name again")
+    @Size(min = 1,message = "name length from 3 to 300")
     private String name;
-    private double price;
-    private float quantity;
+    @NotEmpty(message = "Enter price again")
+//    @Pattern(regexp="\\d",message = "only number")
+    private String price;
+    @NotEmpty(message = "not null")
+//    @Pattern(regexp="\\d",message = "only number")
+    private String quantity;
+
+    @NotEmpty(message = "not null")
     private String description;
     private MultipartFile image;
     private Category category;
@@ -22,9 +32,9 @@ public class ProductForm {
     public ProductForm() {
     }
 
-    public ProductForm(Long id, String nameProduct, double price, float quantity, String description, MultipartFile image, Category category) {
+    public ProductForm(Long id, String name, String price, String quantity, String description, MultipartFile image, Category category) {
         this.id = id;
-        this.name = nameProduct;
+        this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.description = description;
@@ -48,19 +58,19 @@ public class ProductForm {
         this.name = name;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public float getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 

@@ -62,7 +62,7 @@ public class ProductController {
     }
 
     @PostMapping("/create-product")
-    public ModelAndView saveProduct(@ModelAttribute(name = "product") ProductForm productForm, BindingResult bindingResult) {
+    public ModelAndView saveProduct(@Validated @ModelAttribute(name = "product") ProductForm productForm, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("/product/create");
 //        modelAndView.addObject("productForm", productForm);
 
@@ -73,10 +73,10 @@ public class ProductController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), fileName,
+         Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), fileName,
                 productForm.getCategory());
 
-        new Product().validate(product, bindingResult);
+//        new Product().validate(product, bindingResult);
         if (bindingResult.hasFieldErrors()) {
 //                modelAndView.addObject("message", "Created new product failed !");
 

@@ -21,11 +21,11 @@
             <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
         <tr>
             <td> Price:</td>
-            <td><input type="text" th:field="*{price}"/></td>
+            <td><input type="number" th:field="*{price}"/></td>
         <td th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Name Error</td>
         </tr>      <tr>
             <td> quantity:</td>
-            <td><input type="text" th:field="*{quantity}"/></td>
+            <td><input type="number" th:field="*{quantity}"/></td>
         <td th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Name Error</td>
         </tr>      <tr>
             <td> description:</td>

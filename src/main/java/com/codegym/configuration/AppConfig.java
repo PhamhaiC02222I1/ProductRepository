@@ -146,10 +146,10 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         resolver.setMaxUploadSizePerFile(52428800);
         return resolver;
     }
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("validation-message");
-        return messageSource;
-    }
+//    @Bean
+//    public MessageSource messageSource() {
+//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+//        messageSource.setBasenames("validation-message");
+//        return messageSource;
+//    }
 }
