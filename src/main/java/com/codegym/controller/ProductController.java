@@ -1,5 +1,6 @@
 package com.codegym.controller;
 
+import com.codegym.model.Cart;
 import com.codegym.model.category.Category;
 import com.codegym.model.product.Product;
 import com.codegym.model.product.ProductForm;
@@ -23,10 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
+@SessionAttributes("cart")
 public class ProductController {
     @Value("${file-upload}")
     private String fileUpload;
@@ -36,10 +39,52 @@ public class ProductController {
     @Autowired
     private ICategoryService categoryService;
 
+    @ModelAttribute("cart")
+    public Cart setupCart() {
+        return new Cart();
+    }
+
+
     @ModelAttribute("categories")
     public Iterable<Category> categories() {
         return categoryService.findAll();
     }
+
+
+//    @GetMapping("/shop")
+//    public ModelAndView showShop() {
+//        ModelAndView modelAndView = new ModelAndView("/shop");
+//        modelAndView.addObject("product", productService.findAll());
+//        return modelAndView;
+//    }
+
+    @GetMapping("/add/{id}")
+    public String addToCart(@PathVariable Long id, @ModelAttribute Cart cart, @RequestParam("action") String action) {
+        Optional<Product> productOptional = productService.findById(id);
+        if (!productOptional.isPresent()) {
+            return "/product/error.404";
+        }
+        if (action.equals("show")) {
+            cart.addProduct(productOptional.get());
+            return "redirect:/shopping-cart";
+        }
+        cart.addProduct(productOptional.get());
+        return "redirect:/product";
+    }
+    @GetMapping("/sub/{id}")
+    public String subToCart(@PathVariable Long id, @ModelAttribute Cart cart, @RequestParam("action") String action) {
+        Optional<Product> productOptional = productService.findById(id);
+        if (!productOptional.isPresent()) {
+            return "/product/error.404";
+        }
+        if (action.equals("show1")) {
+            cart.subtractionProduct(productOptional.get());
+            return "redirect:/shopping-cart";
+        }
+        cart.addProduct(productOptional.get());
+        return "redirect:/product";
+    }
+
 
     @GetMapping("")
     public ModelAndView showList(@RequestParam("search") Optional<String> search, @PageableDefault(sort = {"name"}, direction = Sort.Direction.ASC, size = 5) Pageable pageable) {
