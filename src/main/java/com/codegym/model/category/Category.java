@@ -1,6 +1,7 @@
 package com.codegym.model.category;
 
 import com.codegym.model.product.Product;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Category {
     private String name;
 
     @OneToMany(targetEntity = Product.class)
+    @JsonManagedReference
     private List<Product> products;
 
     public Category() {

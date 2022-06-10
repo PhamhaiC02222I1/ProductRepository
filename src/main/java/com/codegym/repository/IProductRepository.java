@@ -8,10 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IProductRepository extends PagingAndSortingRepository<Product,Long> {
     Iterable<Product> findAllByCategory(Category category);
 Page<Product> findAllByOrderByPrice(Pageable pageable);
     Page<Product> findAllByNameContaining(String name, Pageable pageable);
+    List<Product> findAllByNameContaining(String name);
+
 
 }

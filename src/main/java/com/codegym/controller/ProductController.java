@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -24,12 +26,14 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
 @SessionAttributes("cart")
+
 public class ProductController {
     @Value("${file-upload}")
     private String fileUpload;
@@ -50,13 +54,6 @@ public class ProductController {
         return categoryService.findAll();
     }
 
-
-//    @GetMapping("/shop")
-//    public ModelAndView showShop() {
-//        ModelAndView modelAndView = new ModelAndView("/shop");
-//        modelAndView.addObject("product", productService.findAll());
-//        return modelAndView;
-//    }
 
     @GetMapping("/add/{id}")
     public String addToCart(@PathVariable Long id, @ModelAttribute Cart cart, @RequestParam("action") String action) {
@@ -81,7 +78,7 @@ public class ProductController {
             cart.subtractionProduct(productOptional.get());
             return "redirect:/shopping-cart";
         }
-        cart.addProduct(productOptional.get());
+//        cart.addProduct(productOptional.get());
         return "redirect:/product";
     }
 
@@ -109,8 +106,6 @@ public class ProductController {
     @PostMapping("/create-product")
     public ModelAndView saveProduct(@Validated @ModelAttribute(name = "product") ProductForm productForm, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("/product/create");
-//        modelAndView.addObject("productForm", productForm);
-
         MultipartFile multipartFile = productForm.getImage();
         String fileName = multipartFile.getOriginalFilename();
         try {
@@ -120,21 +115,13 @@ public class ProductController {
         }
          Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), fileName,
                 productForm.getCategory());
-
-//        new Product().validate(product, bindingResult);
         if (bindingResult.hasFieldErrors()) {
-//                modelAndView.addObject("message", "Created new product failed !");
-
             return modelAndView;
         } else {
             productService.save(product);
             modelAndView.addObject("message", "Created new product successfully !");
             return modelAndView;
         }
-
-
-//            modelAndView.addObject("message", "Created new product successfully !");
-
     }
 
     @GetMapping("/edit-product/{id}")
@@ -144,7 +131,6 @@ public class ProductController {
             ModelAndView modelAndView = new ModelAndView("/product/edit");
             modelAndView.addObject("product", product.get());
             return modelAndView;
-
         } else {
             ModelAndView modelAndView = new ModelAndView("/error.404");
             return modelAndView;
@@ -167,7 +153,6 @@ public class ProductController {
                 ex.printStackTrace();
             }
             product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), fileName, productForm.getCategory());
-
         }
         productService.save(product);
         ModelAndView modelAndView = new ModelAndView("/product/edit");
@@ -183,7 +168,6 @@ public class ProductController {
             ModelAndView modelAndView = new ModelAndView("/product/delete");
             modelAndView.addObject("product", product.get());
             return modelAndView;
-
         } else {
             ModelAndView modelAndView = new ModelAndView("/error.404");
             return modelAndView;
@@ -211,4 +195,48 @@ public class ProductController {
         return "/product/view";
     }
 
+//    @GetMapping("/api")
+//    public ResponseEntity<Iterable<Product>> findAllCustomer(Pageable pageable) {
+//        Page<Product> products=productService.findAll(pageable);
+//        if (products.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/api/product/{id}")
+//    public ResponseEntity<Product> findCustomerById(@PathVariable Long id) {
+//        Optional<Product> customerOptional = productService.findById(id);
+//        if (!customerOptional.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(customerOptional.get(), HttpStatus.OK);
+//    }
+//
+//    @PostMapping
+//    public ResponseEntity<Product> saveCustomer(@RequestBody Product product) {
+//        return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.CREATED);
+//    }
+//
+//    @PutMapping("/api/product/{id}")
+//    public ResponseEntity<Product> updateCustomer(@PathVariable Long id, @RequestBody Product product) {
+//       Optional<Product> productOptional = productService.findById(id);
+//        if (!productOptional.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        product.setId(productOptional.get().getId());
+//        return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.OK);
+//    }
+//
+//    @DeleteMapping("/api/product/{id}")
+//    public ResponseEntity<Product> deleteCustomer(@PathVariable Long id) {
+//        Optional<Product> customerOptional = productService.findById(id);
+//        if (!customerOptional.isPresent()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        productService.remove(id);
+//        return new ResponseEntity<>(customerOptional.get(), HttpStatus.NO_CONTENT);
+//    }
 }
+
+

@@ -1,6 +1,7 @@
 package com.codegym.model.product;
 
 import com.codegym.model.category.Category;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -34,8 +35,10 @@ public class Product  {
     private String description;
 
     private String image;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
     private Category category;
+
 
     public Product() {
     }

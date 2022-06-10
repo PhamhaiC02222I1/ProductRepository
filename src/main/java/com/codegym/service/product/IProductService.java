@@ -7,6 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public interface IProductService extends IGeneralService<Product> {
     Iterable<Product> findAllByCategory(Category category);
@@ -14,6 +17,8 @@ public interface IProductService extends IGeneralService<Product> {
     Page<Product> findAll(Pageable pageable);
    Page<Product> findAllByOrderByPrice(Pageable pageable);
     Page<Product> findAllByNameContaining(String name, Pageable pageable);
+    Product saveProduct(Product product);
+    List<Product> findAllByNameContaining(String name);
 
 
 }

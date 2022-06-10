@@ -61,11 +61,15 @@ public void deleteProductInCar(Product product){
         }
     }
     public void subtractionProduct(Product product){
+
         if (checkItemInCart(product)){
             Map.Entry<Product, Integer> itemEntry = selectItemInCart(product);
             Integer newQuantity = itemEntry.getValue() - 1;
+            products.replace(itemEntry.getKey(),newQuantity);
+
             if (newQuantity==0){
-                products.replace(itemEntry.getKey(),newQuantity);
+                products.remove(itemEntry.getKey(),newQuantity);
+
             }
         }
 

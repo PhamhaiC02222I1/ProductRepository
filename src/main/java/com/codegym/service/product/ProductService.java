@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 @Transactional
 @Service
@@ -56,5 +57,15 @@ public class ProductService implements IProductService {
     @Override
     public Iterable<Product> findAllByCategory(Category category) {
         return productRepository.findAllByCategory(category);
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public List<Product> findAllByNameContaining(String name) {
+        return productRepository.findAllByNameContaining(name);
     }
 }

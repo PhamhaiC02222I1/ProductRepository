@@ -23,10 +23,10 @@
             <td th:text="${product.getKey().name}"></td>
             <td>
                 <a id="decrease_button" th:href="@{/product/sub/__${product.getKey().id}__(action='show1')}"
-                   th:text="${'-'}"></a>
+                   th:text="${'--'}"></a>
                 <span th:text="${product.getValue()}"></span>
                 <a id="increase_button" th:href="@{/product/add/__${product.getKey().id}__(action='show')}"
-                   th:text="${'+'}"></a>
+                   th:text="${'++'}"></a>
             </td>
             <td th:text="${product.getKey().price}"></td>
             <td><a th:href="@{/delete/__${product.getKey().id}__ }">delete</a></td>
