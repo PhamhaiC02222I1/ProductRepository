@@ -1,12 +1,15 @@
 package com.codegym.service.category;
 
 import com.codegym.model.category.Category;
+import com.codegym.model.product.Product;
 import com.codegym.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 @Service
+@Transactional
 public class CategoryService implements ICategoryService {
     @Autowired
     private ICategoryRepository categoryRepository;
@@ -30,4 +33,11 @@ categoryRepository.save(category);
     public void remove(Long id) {
 categoryRepository.deleteById(id);
     }
+
+    @Override
+    public Category saveCategory(Category category) {
+       return categoryRepository.save(category);
+    }
+
+
 }

@@ -68,4 +68,14 @@ public class ProductService implements IProductService {
     public List<Product> findAllByNameContaining(String name) {
         return productRepository.findAllByNameContaining(name);
     }
+
+    @Override
+    public List<Product> findAllByPriceIsGreaterThanEqual(String price) {
+        return productRepository.findAllByPriceIsGreaterThanEqual(price);
+    }
+
+    @Override
+    public List<Product> findAllByCategoryId(Long id) {
+        return productRepository.findAllByCategoryId(id);
+    }
 }

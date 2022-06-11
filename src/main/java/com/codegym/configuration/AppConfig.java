@@ -1,6 +1,7 @@
 package com.codegym.configuration;
 import com.codegym.formatter.CategoryForm;
 import com.codegym.service.category.CategoryService;
+import com.codegym.service.category.ICategoryService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -129,7 +130,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(new CategoryForm(applicationContext.getBean(CategoryService.class)));
+        registry.addFormatter(new CategoryForm(applicationContext.getBean(ICategoryService.class)));
     }
 
 

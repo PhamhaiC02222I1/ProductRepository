@@ -6,14 +6,17 @@
 </head>
 <body>
 <h1>View category: <span th:text="${category.name}"></span></h1>
-<a href="/product">Category list</a>
+<a href="/category">Category list</a>
 <p>
     <a href="/product">Product list</a>
 </p>
 <table border="1">
     <tr>
         <th>Name</th>
-        <th>content</th>
+        <th>Price</th>
+        <th>quantity</th>
+        <th>description</th>
+        <th>image</th>
     </tr>
     <th:block th:each="pro : ${products}">
         <tr>

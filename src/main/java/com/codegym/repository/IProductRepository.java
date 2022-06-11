@@ -16,6 +16,6 @@ public interface IProductRepository extends PagingAndSortingRepository<Product,L
 Page<Product> findAllByOrderByPrice(Pageable pageable);
     Page<Product> findAllByNameContaining(String name, Pageable pageable);
     List<Product> findAllByNameContaining(String name);
-
-
+List<Product> findAllByPriceIsGreaterThanEqual(String price);
+List<Product> findAllByCategoryId(Long id);
 }

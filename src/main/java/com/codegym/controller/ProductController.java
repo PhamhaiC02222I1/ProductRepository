@@ -195,48 +195,6 @@ public class ProductController {
         return "/product/view";
     }
 
-//    @GetMapping("/api")
-//    public ResponseEntity<Iterable<Product>> findAllCustomer(Pageable pageable) {
-//        Page<Product> products=productService.findAll(pageable);
-//        if (products.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>(products, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/api/product/{id}")
-//    public ResponseEntity<Product> findCustomerById(@PathVariable Long id) {
-//        Optional<Product> customerOptional = productService.findById(id);
-//        if (!customerOptional.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<>(customerOptional.get(), HttpStatus.OK);
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<Product> saveCustomer(@RequestBody Product product) {
-//        return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.CREATED);
-//    }
-//
-//    @PutMapping("/api/product/{id}")
-//    public ResponseEntity<Product> updateCustomer(@PathVariable Long id, @RequestBody Product product) {
-//       Optional<Product> productOptional = productService.findById(id);
-//        if (!productOptional.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        product.setId(productOptional.get().getId());
-//        return new ResponseEntity<>(productService.saveProduct(product), HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping("/api/product/{id}")
-//    public ResponseEntity<Product> deleteCustomer(@PathVariable Long id) {
-//        Optional<Product> customerOptional = productService.findById(id);
-//        if (!customerOptional.isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        productService.remove(id);
-//        return new ResponseEntity<>(customerOptional.get(), HttpStatus.NO_CONTENT);
-//    }
 }
 
 

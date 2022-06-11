@@ -19,6 +19,8 @@ public interface IProductService extends IGeneralService<Product> {
     Page<Product> findAllByNameContaining(String name, Pageable pageable);
     Product saveProduct(Product product);
     List<Product> findAllByNameContaining(String name);
+    List<Product> findAllByPriceIsGreaterThanEqual(String price);
+    List<Product> findAllByCategoryId(Long id);
 
 
 }

@@ -53,6 +53,14 @@ public class Product  {
         this.category = category;
     }
 
+    public Product(String name, String price, String quantity, String description, String image) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.description = description;
+        this.image = image;
+    }
+
     public Long getId() {
         return id;
     }
