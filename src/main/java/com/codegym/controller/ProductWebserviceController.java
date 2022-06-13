@@ -2,7 +2,7 @@ package com.codegym.controller;
 
 import com.codegym.model.category.Category;
 import com.codegym.model.product.Product;
-import com.codegym.model.product.ProductForm;
+//import com.codegym.model.product.ProductForm;
 import com.codegym.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +23,6 @@ import java.util.Optional;
 public class ProductWebserviceController {
     @Autowired
     private IProductService productService;
-    @Value("${file-upload}")
-    private String fileUpload;
 
     @GetMapping
     public ResponseEntity<Iterable<Product>> findAllProduct() {
@@ -33,7 +32,12 @@ public class ProductWebserviceController {
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
-
+    @GetMapping("/list")
+    public ModelAndView getAllProductPage() {
+        ModelAndView modelAndView = new ModelAndView("/product/index");
+        modelAndView.addObject("product", productService.findAll());
+        return modelAndView;
+    }
     @GetMapping("{id}")
     public ResponseEntity<Product> findProductById(@PathVariable Long id) {
         Optional<Product> product = productService.findById(id);
@@ -77,23 +81,6 @@ public class ProductWebserviceController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
-    }
-
-    @PostMapping("/upanh")
-    public ResponseEntity<Product> upAnh(@ModelAttribute ProductForm productForm) {
-        MultipartFile multipartFile = productForm.getImage();
-        String fileName = multipartFile.getOriginalFilename();
-        try {
-            FileCopyUtils.copy(productForm.getImage().getBytes(), new File(fileUpload + fileName));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        Product product = new Product(productForm.getId(), productForm.getName(), productForm.getPrice(), productForm.getQuantity(), productForm.getDescription(), fileName,
-                productForm.getCategory());
-
-        productService.save(product);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/listPriceGreater")
     public ResponseEntity<List<Product>> showPriceGreater(@RequestParam String price){
