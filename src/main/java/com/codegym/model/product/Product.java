@@ -35,8 +35,8 @@ public class Product  {
     private String description;
 
     private String image;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonBackReference
+    @ManyToOne()
+
     private Category category;
 
 
